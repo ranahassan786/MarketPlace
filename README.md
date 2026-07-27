@@ -1,52 +1,57 @@
-# Product Management Application
+# MarketPlace
 
-A modern React + Vite application that integrates REST APIs to provide user authentication, product browsing, search, filtering, sorting, pagination, and detailed product views. Built with reusable components and a responsive UI.
+A modern **React + Vite** marketplace application that integrates REST APIs to provide user authentication, product browsing, search, category filtering, sorting, pagination, and detailed product views. Built with reusable components, protected routes, and a responsive UI for a smooth shopping experience.
 
-## Features
+## ✨ Features
 
-- User Login & Authentication
-- Protected Routes
-- Product Listing
-- Product Search
-- Category Filtering
-- Product Sorting
-- Pagination (Limit & Skip)
-- Single Product Details
-- Responsive Design
-- Reusable Components
-- Generic API Methods
+* User Authentication (Login)
+* Protected Routes
+* Product Listing
+* Product Search
+* Category Filtering
+* Product Sorting (Ascending/Descending)
+* Pagination (Limit & Skip)
+* Single Product Details
+* Responsive UI
+* Reusable React Components
+* Generic API Methods
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- React
-- Vite
-- JavaScript (ES6+)
-- React Router
-- Axios / Fetch API
-- Tailwind CSS
-- DummyJSON REST API
+* React
+* Vite
+* JavaScript (ES6+)
+* React Router DOM
+* Axios
+* Tailwind CSS
+* DummyJSON REST API
 
-## Installation
+## 📁 Project Structure
 
-```bash
-git clone <repository-url>
-cd <project-folder>
-npm install
-npm run dev
-```
-
-## Project Structure
-
-```
+```text
 src/
+├── assets/
 ├── components/
 ├── pages/
 ├── screens/
 ├── services/
 ├── routes/
-└── assets/
+└── utils/
 ```
 
-## Author
+## 🚀 Getting Started
 
-Rana Hassan
+```bash
+git clone https://github.com/ranahassan786/MarketPlace.git
+cd MarketPlace
+npm install
+npm run dev
+```
+
+## 📸 Preview
+
+Add screenshots or a demo GIF here.
+
+## 👨‍💻 Author
+
+**Rana Hassan**
