@@ -1,49 +1,53 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GetApi } from "../ApiMethod";
-import { productsApi, SearchProductApi, ProductsLimitSkipApi, SortByApi, categoriesApi, CategoryProductsApi } from "../Routes";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSearch,
+  setSelectedCategory,
+  setLimit,
+  setSortBy,
+  setOrder,
+  setSkip,
+  clearFilters,
+} from "../Redux/features/products/productSlice";
+import {selectProducts,
+  selectCategories,
+  selectProductsStatus,
+  selectSearch,
+  selectSelectedCategory,
+  selectLimit,
+  selectSkip,
+  selectTotalProducts,
+  selectSortBy,
+  selectOrder
+} from "../Redux/selectors/Selectors";
+import { fetchCategories, fetchProducts } from "../Redux/features/products/productService";
 import HeroSectionScreen from "../screens/HeroSectionScreen";
 
 const HeroSection = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [limit, setLimit] = useState(10);
-  const [skip, setSkip] = useState(10);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [sortBy, setSortBy] = useState("");
-  const [order, setOrder] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
 
-  const fetchProducts = useCallback(async (query, limitParam) => {
-    setSearchLoading(true);
-    try {
-      const apiUrl = query ? SearchProductApi(query, limitParam || limit) : productsApi;
-      const data = await GetApi(apiUrl);
-      setProducts(data.products);
-      setTotalProducts(data.total);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSearchLoading(false);
-      setLoading(false);
-    }
-  }, [limit]);
+  const products = useSelector(selectProducts);
+  const categories = useSelector(selectCategories);
+  const status = useSelector(selectProductsStatus);
+  const search = useSelector(selectSearch);
+  const selectedCategory = useSelector(selectSelectedCategory);
+  const limit = useSelector(selectLimit);
+  const skip = useSelector(selectSkip);
+  const totalProducts = useSelector(selectTotalProducts);
+  const sortBy = useSelector(selectSortBy);
+  const order = useSelector(selectOrder);
 
+  
   useEffect(() => {
-    (async () => {
-      try {
-        const data = await GetApi(categoriesApi);
-        setCategories(data);
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      }
-    })();
-    fetchProducts("");
-  }, []);
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+ 
+  useEffect(() => {
+    dispatch(fetchProducts({}));
+  }, [dispatch]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -52,109 +56,52 @@ const HeroSection = () => {
   };
 
   const clearSearch = () => {
-    setSearch("");
+    dispatch(setSearch(""));
   };
 
-  const handleApply = async (limitValue) => {
+  const handleApply = (limitValue) => {
     const numLimit = Number(limitValue) || limit;
-    setLimit(numLimit);
-    setSearchLoading(true);
-    try {
-      let apiUrl;
-      // Category is the base filter; search + sort + limit are combined with it
-      if (selectedCategory) {
-        apiUrl = CategoryProductsApi(selectedCategory);
-        const params = [];
-        if (numLimit > 0) params.push(`limit=${numLimit}`);
-        if (sortBy) params.push(`sortBy=${sortBy}&order=${order}`);
-        if (params.length > 0) apiUrl += `?${params.join("&")}`;
-        const data = await GetApi(apiUrl);
-        // If search is also active, filter the results client-side within the category
-        let filteredProducts = data.products;
-        if (search) {
-          const lowerSearch = search.toLowerCase();
-          filteredProducts = data.products.filter(
-            (p) =>
-              p.title.toLowerCase().includes(lowerSearch) ||
-              p.description.toLowerCase().includes(lowerSearch)
-          );
-        }
-        setProducts(filteredProducts);
-        setTotalProducts(filteredProducts.length);
-      } else if (search) {
-        // Search endpoint supports sortBy and order as query params
-        apiUrl = SearchProductApi(search, numLimit);
-        if (sortBy) {
-          apiUrl += `&sortBy=${sortBy}&order=${order}`;
-        }
-        const data = await GetApi(apiUrl);
-        setProducts(data.products);
-        setTotalProducts(data.total);
-      } else if (sortBy) {
-        apiUrl = SortByApi(sortBy, order);
-        if (numLimit > 0) apiUrl += `&limit=${numLimit}`;
-        const data = await GetApi(apiUrl);
-        setProducts(data.products);
-        setTotalProducts(data.total);
-      } else if (numLimit > 0) {
-        apiUrl = ProductsLimitSkipApi(numLimit, skip);
-        const data = await GetApi(apiUrl);
-        setProducts(data.products);
-        setTotalProducts(data.total);
-      } else {
-        const data = await GetApi(productsApi);
-        setProducts(data.products);
-        setTotalProducts(data.total);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSearchLoading(false);
-    }
+    dispatch(setLimit(numLimit));
+    dispatch(
+      fetchProducts({
+        search,
+        category: selectedCategory,
+        limit: numLimit,
+        skip,
+        sortBy,
+        order,
+      })
+    );
   };
 
   const handleSort = (sortValue, orderValue) => {
-    setSortBy(sortValue);
-    setOrder(orderValue);
+    dispatch(setSortBy(sortValue));
+    dispatch(setOrder(orderValue));
   };
 
   const handleCategorySelect = (slug) => {
-    setSelectedCategory(slug);
+    dispatch(setSelectedCategory(slug));
   };
 
-  const clearFilter = async () => {
-    setSelectedCategory("");
-    setSortBy("");
-    setOrder("");
-    setSearch("");
-    setLimit(10);
-    setSkip(10);
-    setSearchLoading(true);
-    try {
-      const data = await GetApi(productsApi);
-      setProducts(data.products);
-      setTotalProducts(data.total);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSearchLoading(false);
-    }
+  const clearFilter = () => {
+    dispatch(clearFilters());
+    dispatch(fetchProducts({}));
   };
 
   return (
     <HeroSectionScreen
       products={products}
       categories={categories}
-      loading={loading}
-      searchLoading={searchLoading}
+      loading={status === "loading"}
+      searchLoading={status === "loading"}
       search={search}
       limit={limit}
       skip={skip}
-      setSearch={setSearch}
+      setSearch={(value) => dispatch(setSearch(value))}
       handleKeyDown={handleKeyDown}
       clearSearch={clearSearch}
       handleApply={handleApply}
-      setSkip={setSkip}
+      setSkip={(value) => dispatch(setSkip(value))}
       clearFilter={clearFilter}
       navigate={navigate}
       sortBy={sortBy}

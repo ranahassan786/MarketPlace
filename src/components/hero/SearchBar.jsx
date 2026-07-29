@@ -9,7 +9,7 @@ const SearchBar = ({ search, setSearch, onKeyDown, onClear }) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={onKeyDown}
-        className="w-full border-2 border-indigo-700 p-3 pr-10 h-10 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+        className="w-full border-2 border-indigo-500 p-3 pr-10 h-10 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
       />
       {search && (
         <button

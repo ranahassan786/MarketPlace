@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import LoginScreen from '../screens/LoginScreen'
-import { PostApi } from "../ApiMethod";
- import { loginApi } from "../Routes";
+import { PostApi } from "../util/ApiMethod";
+import { loginApi } from "../util/Routes";
 const Login = () => {
         const [showPassword, setShowPassword] = useState(false);
         const navigate = useNavigate();

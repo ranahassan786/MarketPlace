@@ -8,6 +8,7 @@ import SingleProduct from "./SingleProduct";
 function App() {
   return (
 
+   
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/Signup" replace />} />
@@ -41,6 +42,7 @@ function App() {
         <Route path="/product/:id" element={<SingleProduct />} />
       </Routes>
     </BrowserRouter>
+    
   );
 }
 

@@ -44,14 +44,14 @@ const FilterBar = ({
       <SortDropdown onSort={onSort} />
       <button
         onClick={handleApply}
-        className="border-2 border-indigo-700 p-3 h-10 rounded-md text-white bg-indigo-700 hover:bg-indigo-800 transition-all duration-200 flex items-center gap-2 cursor-pointer font-medium text-sm"
+        className="border-2 border-indigo-500 p-3 h-10 rounded-md text-white bg-indigo-500 hover:bg-indigo-800 transition-all duration-200 flex items-center gap-2 cursor-pointer font-medium text-sm"
       >
         Apply
       </button>
       <button
         onClick={handleClearFilter}
         disabled={!hasAnyFilter}
-        className={`border-2 border-indigo-700 p-3 h-10 rounded-md text-red-600 transition-all 
+        className={`border-2 border-indigo-500 p-3 h-10 rounded-md text-red-600 transition-all 
             duration-200 flex items-center gap-2 cursor-pointer ${!hasAnyFilter
             ? "opacity-50 cursor-not-allowed"
             : "hover:bg-gray-100"
@@ -73,7 +73,7 @@ const FilterBar = ({
       <div className="md:hidden relative">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="border-2 border-indigo-700 p-3 h-10 rounded-md text-indigo-700 hover:bg-indigo-50 transition-all duration-200 flex items-center gap-2 cursor-pointer font-medium text-sm"
+          className="border-2 border-indigo-500 p-3 h-10 rounded-md text-indigo-500 hover:bg-indigo-50 transition-all duration-200 flex items-center gap-2 cursor-pointer font-medium text-sm"
         >
           <ListFilterPlus size={18} />
           Filters

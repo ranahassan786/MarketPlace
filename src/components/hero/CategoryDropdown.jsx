@@ -13,7 +13,7 @@ const CategoryDropdown = ({ categories, selectedCategory, onSelectCategory }) =>
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-gray-200 text-gray-700 px-3 py-3 h-10 rounded-md hover:bg-gray-300 border-2 border-indigo-700 transition-all duration-200 font-semibold cursor-pointer whitespace-nowrap flex items-center gap-2"
+        className="bg-gray-200 text-gray-700 px-3 py-3 h-10 rounded-md hover:bg-gray-300 border-2 border-indigo-500 transition-all duration-200 font-semibold cursor-pointer whitespace-nowrap flex items-center gap-2"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         <span>{selectedName || "Categories"}</span>

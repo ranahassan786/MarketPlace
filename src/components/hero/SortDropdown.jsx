@@ -9,7 +9,7 @@ const SortDropdown = ({ onSort }) => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-gray-200 text-gray-700 px-3 py-3 h-10 rounded-md hover:bg-gray-300 border-2 border-indigo-700 transition-all duration-200 font-semibold cursor-pointer whitespace-nowrap flex items-center gap-2"
+        className="bg-gray-200 text-gray-700 px-3 py-3 h-10 rounded-md hover:bg-gray-300 border-2 border-indigo-500 transition-all duration-200 font-semibold cursor-pointer whitespace-nowrap flex items-center gap-2"
       >
         <ListSortDescending size={18} />
         <span>{selectedSort || "Sort"}</span>
